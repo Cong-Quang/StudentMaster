@@ -37,8 +37,10 @@ namespace b2
             else
             {
                 Console.Clear();
-                Terminal.gI().SetTitle("Cảm ơn m đã dùng");
-                Terminal.gI().Print("Tạm biệt", Terminal.gI().SizeX / 2, Terminal.gI().SizeY / 2, ConsoleColor.Red);
+                new Thread(() => {
+                    Terminal.gI().SetTitle("Cảm ơn m đã dùng");
+                }).Start();
+                Terminal.gI().EfectPrintf("Tạm biệt", Terminal.gI().SizeX / 2, Terminal.gI().SizeY / 2, ConsoleColor.Red);
                 Console.SetCursorPosition(0, Terminal.gI().SizeY);
             }
         }

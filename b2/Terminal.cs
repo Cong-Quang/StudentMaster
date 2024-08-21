@@ -23,7 +23,7 @@ namespace b2
             {
                 currentTitle += c;
                 Console.Title = currentTitle;
-                Thread.Sleep(100);
+                Thread.Sleep(75);
             }
         }
         public void EfectPrintf(string s,int x, int y, ConsoleColor color = ConsoleColor.White)
@@ -32,7 +32,7 @@ namespace b2
             foreach (char c in s)
             {
                 Stringsub += c;
-                Print(Stringsub,x,y,color);
+                Print(Stringsub, x, y, color);
                 Thread.Sleep(100);
             }
         }

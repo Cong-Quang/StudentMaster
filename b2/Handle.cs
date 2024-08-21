@@ -49,7 +49,7 @@ namespace b2
             switch (vector.y)
             {
                 case 0: //Giảng viên
-                    Console.Clear();  
+                    Console.Clear();
                     Terminal.gI().Print(MenuGV, 3, 2, ConsoleColor.Red);
                     menuGV(key, Teachers);
                     break;
@@ -57,7 +57,7 @@ namespace b2
                 case 1: // Lựa chọn "Học sinh"
                     Console.Clear();
                     Terminal.gI().Print(MenuHS, 3, 3, ConsoleColor.Red);
-                    menuHS(key,Students);
+                    menuHS(key, Students);
                     break;
 
                 case 2: // Lựa chọn "Thoát"
@@ -73,40 +73,61 @@ namespace b2
         {
             Terminal.gI().Print("Danh sách Giảng viên:", Terminal.gI().SizeX / 2 - 30, 1, ConsoleColor.Green);
             Terminal.gI().Print("Chức Năng", 3, 1, ConsoleColor.Cyan);
-            // Xử lý di chuyển trái/phải trong danh sách giảng viên
-            if (key.Key == ConsoleKey.S)
-            {
-                vectorGV.y = Math.Min(Teachers.Count - 1, vectorGV.y + 1);  // Di chuyển xuông dưới
-            }
-            else if (key.Key == ConsoleKey.W)
-            {
-                vectorGV.y = Math.Max(0, vectorGV.y - 1);  // Di chuyển lên trêb
-            }
+            Terminal.gI().Print(MenuHS, 3, 3, ConsoleColor.Green);
+            Terminal.gI().Print(MenuExit, 3, 4, ConsoleColor.Green);
 
-            // Hiển thị danh sách giảng viên với chỉ mục hiện tại(đổi màu)
             int yPosition = 2;
             for (int i = 0; i < Teachers.Count; i++)
             {
-                var color = (i == vectorGV.y) ? ConsoleColor.Red : ConsoleColor.White;  // Giảng viên đang được chọn có màu đỏ
+                var color = (i == vectorGV.y) ? ConsoleColor.Red : ConsoleColor.White;
                 Terminal.gI().Print(Teachers[i].Name, Terminal.gI().SizeX / 2 - 30, yPosition++, color);
             }
 
-            // Hiển thị lại các lựa chọn menu sau khi in danh sách
-            Terminal.gI().Print(MenuHS, 3, 3, ConsoleColor.Green);
-            Terminal.gI().Print(MenuExit, 3, 4, ConsoleColor.Green);
+            while (true)
+            {
+                Terminal.gI().Print(MenuGV, 3, 2, ConsoleColor.Red);
+                ConsoleKeyInfo keyx = Console.ReadKey();
+
+                if (keyx.Key == ConsoleKey.DownArrow)
+                {
+                    vectorGV.y = Math.Min(Teachers.Count - 1, vectorGV.y + 1);
+                }
+                else if (keyx.Key == ConsoleKey.UpArrow)
+                {
+                    vectorGV.y = Math.Max(0, vectorGV.y - 1);
+                }
+                else if (keyx.Key == ConsoleKey.LeftArrow || keyx.Key == ConsoleKey.Escape)
+                {
+                    vectorGV.y = 0;
+                    return;
+                }
+                Terminal.gI().Print("Danh sách Giảng viên:", Terminal.gI().SizeX / 2 - 30, 1, ConsoleColor.Green);
+                Terminal.gI().Print("Chức Năng", 3, 1, ConsoleColor.Cyan);
+                Terminal.gI().Print(MenuGV, 3, 2, ConsoleColor.Green);
+                Terminal.gI().Print(MenuHS, 3, 3, ConsoleColor.Green);
+                Terminal.gI().Print(MenuExit, 3, 4, ConsoleColor.Green);
+
+                yPosition = 2;
+                for (int i = 0; i < Teachers.Count; i++)
+                {
+                    var color = (i == vectorGV.y) ? ConsoleColor.Red : ConsoleColor.White;
+                    Terminal.gI().Print(Teachers[i].Name, Terminal.gI().SizeX / 2 - 30, yPosition++, color);
+                }
+                Terminal.gI().Print($"{vectorGV.x} {vectorGV.y}", 0, 0, ConsoleColor.Red);
+            }
         }
 
-        private void menuHS(ConsoleKeyInfo key,List<Student> Students)
+        private void menuHS(ConsoleKeyInfo key, List<Student> Students)
         {
             Terminal.gI().Print("Danh sách Học sinh:", Terminal.gI().SizeX / 2 - 30, 1, ConsoleColor.Green);
             Terminal.gI().Print("Chức Năng", 3, 1, ConsoleColor.Cyan);
             if (key.Key == ConsoleKey.S)
             {
-                vectorHS.y = Math.Min(Students.Count - 1, vectorHS.y + 1);  
+                vectorHS.y = Math.Min(Students.Count - 1, vectorHS.y + 1);
             }
             else if (key.Key == ConsoleKey.W)
             {
-                vectorHS.y = Math.Max(0, vectorHS.y - 1); 
+                vectorHS.y = Math.Max(0, vectorHS.y - 1);
             }
 
             // Hiển thị danh sách giảng viên với chỉ mục hiện tại(đổi màu)
