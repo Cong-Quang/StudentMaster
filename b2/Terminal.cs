@@ -25,15 +25,15 @@ namespace b2
                 Console.Title = currentTitle;
                 Thread.Sleep(75);
             }
-        }
-        public void EfectPrintf(string s,int x, int y, ConsoleColor color = ConsoleColor.White)
+        }                                             // gắn giá trị mặc định: nếu không được chuyền vô, nó tự lấy cái t gán
+        public void EfectPrintf(string s,int x, int y, ConsoleColor color = ConsoleColor.White, int time = 100)
         {
             string Stringsub = "";
             foreach (char c in s)
             {
                 Stringsub += c;
                 Print(Stringsub, x, y, color);
-                Thread.Sleep(100);
+                Thread.Sleep(time);
             }
         }
         public void Print(string s, int x, int y, ConsoleColor color = ConsoleColor.White)
@@ -44,6 +44,7 @@ namespace b2
                 Console.ForegroundColor = color;
                 Console.WriteLine(s);
                 Console.ResetColor();
+                Console.SetCursorPosition(0, SizeY);
             }
         }
         public void StartLoading()
