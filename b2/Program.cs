@@ -51,6 +51,7 @@ namespace b2
             if (Handle.gI().isRunning)
             {
                 loop();
+                Terminal.gI().StopLoading();
             }
             else
             {
