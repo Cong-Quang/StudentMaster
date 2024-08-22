@@ -27,9 +27,13 @@ namespace b2
 
             // Hiển thị menu khởi đầu
             menuStartH();
+            
 
             Terminal.gI().SetTitle("Menu");
 
+            Terminal.gI().StartLoading();
+            Thread.Sleep(30);
+            Terminal.gI().StartLoading();
             loop();
         }
 

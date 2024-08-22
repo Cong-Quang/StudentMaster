@@ -51,14 +51,14 @@ namespace b2
         {
             new Thread( () =>
             {
-                for (int i = SizeX; i >= 0; i--)
+                for (int i = SizeX; i >= 4; i--)
                 {
                     Print("-", i, 0, ConsoleColor.Green);
                     Thread.Sleep(2);
                 }
                 while (_isLoading)
                 {
-                    for (int i = 0; i < SizeX - 1; i++)
+                    for (int i = 4; i < SizeX - 1; i++)
                     {
                         Print("=", i, 0, ConsoleColor.Yellow);
                         if (i > 0)
@@ -68,7 +68,7 @@ namespace b2
                         Thread.Sleep(1);
                     }
 
-                    for (int i = SizeX; i >= 0; i--)
+                    for (int i = SizeX; i >= 4; i--)
                     {
                         Print("##", i, 0, ConsoleColor.Red);
                         if (i < SizeX)
