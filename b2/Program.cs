@@ -52,20 +52,19 @@ namespace b2
             }
             else
             {
-                // tắt hiệu ứng màu mè để code
-                //Console.Clear();
-                //new Thread(() => Terminal.gI().SetTitle("Cảm ơn bạn đã dùng")).Start();
-                //Terminal.gI().EfectPrintf("Tạm biệt", Terminal.gI().SizeX / 2, Terminal.gI().SizeY / 2, ConsoleColor.Red);
-                //Console.SetCursorPosition(0, Terminal.gI().SizeY);
+                Console.Clear();
+                new Thread(() => Terminal.gI().SetTitle("Cảm ơn bạn đã dùng")).Start();
+                Terminal.gI().EfectPrintf("Tạm biệt", Terminal.gI().SizeX / 2, Terminal.gI().SizeY / 2, ConsoleColor.Red);
+                Console.SetCursorPosition(0, Terminal.gI().SizeY);
             }
         }
 
         // Hiển thị menu khởi đầu
         static void menuStartH()
         {
-            //Terminal.gI().SetTitle("Xin chào tôi là Quang",20);
-            //Terminal.gI().Print($"{0} {0}", 0, 0, ConsoleColor.Green);
-            //Terminal.gI().EfectPrintf("Ấn phím bất kỳ để bắt đầu", Terminal.gI().SizeX / 2, Terminal.gI().SizeY / 2, ConsoleColor.Red,25);
+            Terminal.gI().SetTitle("Xin chào tôi là Quang", 20);
+            Terminal.gI().Print($"{0} {0}", 0, 0, ConsoleColor.Green);
+            Terminal.gI().EfectPrintf("Ấn phím bất kỳ để bắt đầu", Terminal.gI().SizeX / 2, Terminal.gI().SizeY / 2, ConsoleColor.Red, 25);
         }
 
         // Thêm dữ liệu mẫu cho giáo viên

@@ -24,10 +24,14 @@ namespace b2
         private const string MenuHS = "Học Sinh";
         private const string MenuExit = "Thoát";
         public bool isRunning = true;
-
+        private List<Teacher> Teachers;
+        private List<Student> Students;
         // Hiển thị menu chính và xử lý điều hướng
         public void ShowMenuStart(ConsoleKeyInfo key, List<Teacher> Teachers, List<Student> Students)
         {
+            this.Teachers = Teachers;
+            this.Students = Students;
+
             if (key.Key != ConsoleKey.NoName)
             {
                 DisplayMenu();
@@ -88,7 +92,7 @@ namespace b2
         }
 
         // Hiển thị danh sách các mục và xử lý điều hướng
-        private void displaySupMenu(ConsoleKeyInfo key, string[] listName, Vector vector)
+        private void displaySupMenu(ConsoleKeyInfo key, string[] listName, Vector vector , int index)
         {
             while (key.Key == ConsoleKey.RightArrow)
             {
@@ -107,24 +111,32 @@ namespace b2
                     return;
                 }
 
-                DisplayList(listName, vector, Terminal.gI().SizeX / 2 - 30);
+                DisplayList(listName, vector, Terminal.gI().SizeX / 2 - 30 , index);
             }
         }
 
         // Hiển thị danh sách các mục với màu sắc tùy theo lựa chọn
 
-        private void DisplayList(string[] listName, Vector vector, int positions)
+        private void DisplayList(string[] listName, Vector vector, int positions, int indx = 0)
         {
             int index = 2;
             for (int i = 0; i < listName.Length; i++)
             {
                 var color = (i == vector.y) ? ConsoleColor.DarkRed : ConsoleColor.White;
                 Terminal.gI().Print(listName[i], positions, index++, color);
+
                 // show tên của thằng được trọn ( cái id đồ đồ í )
-                if (i == vector.y)
+                if (i == vector.y && indx == 2)
                 {
                     Terminal.gI().Print("                                    ", 60, 0);
                     Terminal.gI().Print(listName[i], 70, 0, ConsoleColor.DarkRed);
+                    int tableStartX = 50;
+                    Terminal.gI().Print(Students[i].Id, tableStartX, 2, ConsoleColor.White);
+                    Terminal.gI().Print(Students[i].Age.ToString(), tableStartX + 10, 2, ConsoleColor.White);
+                    Terminal.gI().Print(Students[i].Class, tableStartX + 20, 2, ConsoleColor.White);
+                    Terminal.gI().Print(Students[i].GPA.ToString(), tableStartX + 30, 2, Students[i].IsPassing() ? ConsoleColor.White : ConsoleColor.Red); // qua môn thì trắng, ko qua thì đỏ
+
+                    Terminal.gI().Print($"{i}", 0, 1, ConsoleColor.Yellow); // Debugging
                 }
             }
             Terminal.gI().Print($"{vector.x} {vector.y}", 0, 0, ConsoleColor.Red); // Debugging
@@ -148,7 +160,7 @@ namespace b2
             {
                 int tableStartX = 50;
                 Terminal.gI().Print("id", tableStartX, 1, ConsoleColor.Cyan);
-                Terminal.gI().Print("mã số", tableStartX + 10, 1, ConsoleColor.Cyan);
+                Terminal.gI().Print("Tuổi", tableStartX + 10, 1, ConsoleColor.Cyan); // chx có mã số
                 Terminal.gI().Print("lớp", tableStartX + 20, 1, ConsoleColor.Cyan);
                 Terminal.gI().Print("GPA", tableStartX + 30, 1, ConsoleColor.Cyan);
                 Terminal.gI().Print("Số tín chỉ đạt được", tableStartX + 40, 1, ConsoleColor.Cyan);
@@ -162,23 +174,23 @@ namespace b2
                 Terminal.gI().Print("Xóa", positon + 14, listName.Length + 2, ConsoleColor.Cyan);
             }
         }
-
         // Xử lý menu cho Giảng viên
         private void menuGV(ConsoleKeyInfo key, List<Teacher> Teachers) // Action được gọi nếu danh sách là list Teacher
         {
             int p = Terminal.gI().SizeX / 2 - 30;
             ShowMenu(1, p, Teachers.Select(t => t.Name).ToArray());
-            DisplayList(Teachers.Select(t => t.Name).ToArray(), vectorGV, p);
-            displaySupMenu(key, Teachers.Select(t => t.Name).ToArray(), vectorGV);
+            DisplayList(Teachers.Select(t => t.Name).ToArray(), vectorGV, p , 1);
+            displaySupMenu(key, Teachers.Select(t => t.Name).ToArray(), vectorGV , 1);
         }
+
 
         // Xử lý menu cho Học Sinh
         private void menuHS(ConsoleKeyInfo key, List<Student> Students) // Action được gọi nếu danh sách là list Student
         {
             int p = Terminal.gI().SizeX / 2 - 30;
             ShowMenu(2, p, Students.Select(s => s.Name).ToArray());
-            DisplayList(Students.Select(s => s.Name).ToArray(), vectorHS, p);
-            displaySupMenu(key, Students.Select(s => s.Name).ToArray(), vectorHS);
+            DisplayList(Students.Select(s => s.Name).ToArray(), vectorHS, p, 2);
+            displaySupMenu(key, Students.Select(s => s.Name).ToArray(), vectorHS , 2);
         }
     }
 }
