@@ -16,14 +16,14 @@ namespace b2
         public int SizeX { get; set; } = 100;
         public int SizeY { get; set; } = 20;
 
-        public void SetTitle(string title)
+        public void SetTitle(string title,int time = 75)
         {
             string currentTitle = "";
             foreach (char c in title)
             {
                 currentTitle += c;
                 Console.Title = currentTitle;
-                Thread.Sleep(75);
+                Thread.Sleep(time);
             }
         }                                             // gắn giá trị mặc định: nếu không được chuyền vô, nó tự lấy cái t gán
         public void EfectPrintf(string s,int x, int y, ConsoleColor color = ConsoleColor.White, int time = 100)

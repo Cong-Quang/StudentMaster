@@ -31,9 +31,6 @@ namespace b2
 
             Terminal.gI().SetTitle("Menu");
 
-            Terminal.gI().StartLoading();
-            Thread.Sleep(30);
-            Terminal.gI().StartLoading();
             loop();
         }
 
@@ -55,18 +52,20 @@ namespace b2
             }
             else
             {
-                Console.Clear();
-                new Thread(() => Terminal.gI().SetTitle("Cảm ơn bạn đã dùng")).Start();
-                Terminal.gI().EfectPrintf("Tạm biệt", Terminal.gI().SizeX / 2, Terminal.gI().SizeY / 2, ConsoleColor.Red);
-                Console.SetCursorPosition(0, Terminal.gI().SizeY);
+                // tắt hiệu ứng màu mè để code
+                //Console.Clear();
+                //new Thread(() => Terminal.gI().SetTitle("Cảm ơn bạn đã dùng")).Start();
+                //Terminal.gI().EfectPrintf("Tạm biệt", Terminal.gI().SizeX / 2, Terminal.gI().SizeY / 2, ConsoleColor.Red);
+                //Console.SetCursorPosition(0, Terminal.gI().SizeY);
             }
         }
 
         // Hiển thị menu khởi đầu
         static void menuStartH()
         {
-            Terminal.gI().Print($"{0} {0}", 0, 0, ConsoleColor.Green);
-            Terminal.gI().Print("Ấn phím bất kỳ để bắt đầu", 3, 1, ConsoleColor.Cyan);
+            //Terminal.gI().SetTitle("Xin chào tôi là Quang",20);
+            //Terminal.gI().Print($"{0} {0}", 0, 0, ConsoleColor.Green);
+            //Terminal.gI().EfectPrintf("Ấn phím bất kỳ để bắt đầu", Terminal.gI().SizeX / 2, Terminal.gI().SizeY / 2, ConsoleColor.Red,25);
         }
 
         // Thêm dữ liệu mẫu cho giáo viên
@@ -85,7 +84,7 @@ namespace b2
         {
             Students = new List<Student>
             {
-                new Student("A1", "Nguyễn Thành Bảo Ngân", 1, 19, "23DTHA5", 3.9),
+                new Student("A1", "Nguyễn Thanh Bảo Ngân", 1, 19, "23DTHA5", 3.9),
                 new Student("A2", "Nguyễn Công Quang", 2, 21, "23DTHA6", 1.9),
                 new Student("A3", "Nguyễn Trường Phát", 1, 19, "23DTHA7", 3.7),
                 new Student("A1", "Lê Huỳnh Ngọc", 1, 19, "23DTHA5", 2.6),
