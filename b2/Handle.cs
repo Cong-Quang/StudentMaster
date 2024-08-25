@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Threading;
+
 namespace b2
 {
     public class Handle
@@ -7,76 +8,100 @@ namespace b2
         private static readonly Lazy<Handle> instance = new Lazy<Handle>(() => new Handle());
         public static Handle gI() => instance.Value;
 
-        public bool isRunning = true;
+        private bool isRunning = true;
+
+        // Constructor
         public Handle()
         {
-            Data.gI().addData();
-            loop();
+            var data = Data.gI();
+            data.addData();
+            MainLoop();
         }
-        public void loop()
+
+        // Main Loop
+        public void MainLoop()
         {
+            Terminal.gI().SetTitle("Xin chào");
+            Terminal.gI().EfectPrintf("Ấn Phím bất kỳ để bắt đầu", Terminal.gI().SizeX / 2 , Terminal.gI().SizeY / 2,ConsoleColor.Red,55);
             while (isRunning)
             {
-
                 Console.SetCursorPosition(0, Terminal.gI().SizeY);
-                //Terminal.gI().ShowMenuStudent(Data.gI().students);
-                //Terminal.gI().ShowMenuTeacher(Data.gI().teachers);
                 Terminal.gI().ShowMenuChucNang();
 
-                Data.gI().pChucNang = ReadKeyUD(Data.gI().pChucNang, Data.gI().ChucNang);
-                //Data.gI().pChucNang = ReadKeyUD(Data.gI().pStudent, Data.gI().GetStudentNames());
-                //Data.gI().pStudent = ReadKeyUD(Data.gI().pStudent, Data.gI().GetStudentNames());
-                //Data.gI().pTeacher = ReadKeyUD(Data.gI().pStudent, Data.gI().GetTeacherNames());
+                var data = Data.gI();
+                ConsoleKeyInfo key = Console.ReadKey(true);
+                int chucnang = data.pChucNang = ReadKeyUD(data.pChucNang, data.ChucNang, key);
 
-                Thread.Sleep(10);
+                switch (chucnang)
+                {
+                    case 0: // Teacher
+                        Console.Clear();
+                        HandleTeacherMenu(key);
+                        break;
+                    case 1: // Student
+                        Console.Clear();
+                        HandleStudentMenu(key);
+                        break;
+                    default:
+                        break;
+                }
+
             }
+            Console.Clear();
+            Terminal.gI().EfectPrintf("Tạm Biệt",Terminal.gI().SizeX / 2 + 5 , Terminal.gI().SizeY / 2,ConsoleColor.Red,30);
+            Terminal.gI().SetTitle("Then Kiu bây bề đã chạy thử",35);
         }
-        private int ReadKeyUD(int positions, string[] array)
+
+        // Method to handle the Teacher menu
+        private void HandleTeacherMenu(ConsoleKeyInfo key)
         {
-            Terminal.gI().Print(positions.ToString(), 1,0);
-            ConsoleKeyInfo key = Console.ReadKey();
+            var data = Data.gI();
+            Terminal.gI().ShowMenuTeacher(data.teachers);
+            data.pTeacher = ReadKeyUD(data.pTeacher, data.GetStudentNames(),key);
+        }
+
+        // Method to handle the Student menu
+        private void HandleStudentMenu(ConsoleKeyInfo key)
+        {
+            var data = Data.gI();
+            Terminal.gI().ShowMenuStudent(data.students);
+            data.pStudent = ReadKeyUD(data.pStudent, data.GetTeacherNames(), key);
+        }
+
+        private int ReadKeyUD(int position, string[] array, ConsoleKeyInfo key)
+        {
+            Terminal.gI().Print(position.ToString(), 1, 0);
+
             if (key.Key == ConsoleKey.UpArrow)
             {
-                positions--;
-                if (positions < 0)
-                {
-                    positions = array.Length - 1;
-                }
+                position = (position - 1 + array.Length) % array.Length;
             }
             else if (key.Key == ConsoleKey.DownArrow)
             {
-                positions++;
-                if (positions > array.Length - 1)
-                {
-                    positions = 0;
-                }
+                position = (position + 1) % array.Length;
             }
-            else if ((key.Key == ConsoleKey.Enter))
+            else if (key.Key == ConsoleKey.Enter || key.Key == ConsoleKey.Escape)
             {
                 if (Data.gI().pChucNang == 2)
                 {
                     isRunning = false;
                 }
             }
-            else if (key.Key == ConsoleKey.Escape)
-            {
-                if (Data.gI().pChucNang == 2)
-                {
-                    isRunning = false;
-                }
-            }
-            return positions;
+
+            return position;
         }
+
+        // Placeholder for Left/Right key handling if needed
         private void ReadKeyRL()
         {
             ConsoleKeyInfo key = Console.ReadKey(true);
             if (key.Key == ConsoleKey.LeftArrow)
             {
-
+                // Handle Left arrow logic
             }
             else if (key.Key == ConsoleKey.RightArrow)
             {
-
+                // Handle Right arrow logic
             }
         }
     }
